@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Icône provisoire (arche du logotype textuel). À remplacer par le logo officiel lorsqu'il sera validé. -->
+  <rect width="40" height="40" rx="8" fill="#5a3a1e"/>
+  <path d="M8 36V18a12 12 0 0 1 24 0v18" fill="none" stroke="#d4af37" stroke-width="2.5"/>
+  <path d="M15 36V21a5 5 0 0 1 10 0v15" fill="#d4af37" opacity=".85"/>
+</svg>

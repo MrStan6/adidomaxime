@@ -1,0 +1,90 @@
+# =====================================================================
+# Déploiement sur un serveur unique (VPS) : application + PostgreSQL +
+# Caddy (HTTPS automatique Let's Encrypt).
+#
+#   cd deploy && cp .env.example .env   # puis compléter .env
+#   docker compose build
+#   docker compose run --rm tools               # migrations
+#   docker compose up -d
+#
+# Voir docs/DEPLOIEMENT.md pour la procédure complète.
+# =====================================================================
+name: complexe-hotelier
+
+services:
+  db:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hotel
+      POSTGRES_USER: hotel
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD manquant dans deploy/.env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hotel -d hotel"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # Pas de port exposé : la base n'est accessible qu'au sein du réseau Docker.
+
+  app:
+    build:
+      context: ..
+      target: runner
+    image: complexe-hotelier:${APP_VERSION:-latest}
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://hotel:${POSTGRES_PASSWORD}@db:5432/hotel
+      DATABASE_SSL: "false"
+      UPLOAD_DIR: /app/storage/uploads
+      TRUST_PROXY: "true"   # derrière Caddy
+      SITE_URL: https://${DOMAIN:?DOMAIN manquant dans deploy/.env}
+    volumes:
+      - uploads:/app/storage/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Migrations et commandes d'administration (exécuté à la demande).
+  tools:
+    build:
+      context: ..
+      target: tools
+    image: complexe-hotelier-tools:${APP_VERSION:-latest}
+    profiles: ["tools"]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://hotel:${POSTGRES_PASSWORD}@db:5432/hotel
+      DATABASE_SSL: "false"
+      UPLOAD_DIR: /app/storage/uploads
+      SITE_URL: https://${DOMAIN}
+    volumes:
+      - uploads:/app/storage/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL manquant dans deploy/.env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  pgdata:
+  uploads:
+  caddy_data:
+  caddy_config:

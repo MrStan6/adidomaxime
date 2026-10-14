@@ -1,0 +1,22 @@
+# Caddy obtient et renouvelle automatiquement le certificat HTTPS
+# (Let's Encrypt) dès que le nom de domaine pointe vers le serveur.
+{
+	email {$ACME_EMAIL}
+}
+
+# Redirection du domaine « www » vers le domaine principal.
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri} permanent
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+	request_body {
+		max_size 12MB
+	}
+	reverse_proxy app:3000
+	log {
+		output stdout
+		format console
+	}
+}

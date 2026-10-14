@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="photographie de l’établissement à venir">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a5230"/><stop offset="1" stop-color="#3f2814"/></linearGradient>
+<pattern id="p" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M0 24 L24 0" stroke="#ffffff" stroke-opacity=".05" stroke-width="2"/></pattern></defs>
+<rect width="1200" height="900" fill="url(#g)"/><rect width="1200" height="900" fill="url(#p)"/>
+<path d="M140 900 V490.0 A110.0 110.0 0 0 1 360 490.0 V900 Z" fill="#e8dcc6" opacity="0.18"/><path d="M400 900 V400.0 A200.0 200.0 0 0 1 800 400.0 V900 Z" fill="#e8dcc6" opacity="0.28"/><path d="M860 900 V490.0 A110.0 110.0 0 0 1 1080 490.0 V900 Z" fill="#e8dcc6" opacity="0.18"/><path d="M470 900 V470.0 A130.0 130.0 0 0 1 730 470.0 V900 Z" fill="#d4af37" opacity="0.35"/>
+</svg>

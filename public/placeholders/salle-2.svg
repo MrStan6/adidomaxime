@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="photographie de la salle à venir">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3a1e"/><stop offset="1" stop-color="#2e2e2e"/></linearGradient>
+<pattern id="p" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M0 24 L24 0" stroke="#ffffff" stroke-opacity=".05" stroke-width="2"/></pattern></defs>
+<rect width="1200" height="900" fill="url(#g)"/><rect width="1200" height="900" fill="url(#p)"/>
+<path d="M200 900 V540.0 A400.0 400.0 0 0 1 1000 540.0 V900 Z" fill="#e8dcc6" opacity="0.16"/><path d="M380 900 V560.0 A220.0 220.0 0 0 1 820 560.0 V900 Z" fill="#d4af37" opacity="0.3"/>
+</svg>
